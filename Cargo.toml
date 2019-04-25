@@ -1,0 +1,10 @@
+[package]
+name = "atk_mysql_spy"
+version = "0.1.0"
+authors = ["alex"]
+edition = "2018"
+
+[dependencies]
+pcap = "0.7.0"
+nom = "*"
+
