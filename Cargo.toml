@@ -7,4 +7,6 @@ edition = "2018"
 [dependencies]
 pcap = "0.7.0"
 nom = "*"
-
+etherparse = "0.8.0"
+failure = "*"
+failure_derive = "*"

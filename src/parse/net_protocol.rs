@@ -40,6 +40,15 @@ named!(parse_ethernet2_protocol<&[u8], Ethernet2>, do_parse!(
     })
 ));
 
+#[derive(Debug)]
+pub struct IP {
+    version: u8,
+    header_len: u8,
+    total_len: u16,
+    identification: u16,
+
+}
+
 pub fn ethernet2_parser(data: &[u8]) -> Ethernet2 {
     parse_ethernet2_protocol(data).unwrap().1
 }
