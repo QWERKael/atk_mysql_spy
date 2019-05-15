@@ -10,6 +10,14 @@ pub fn capture_package(dev: Device, timeout: i32, bpf: &str) -> Result<(), Error
     get_packet(cap)
 }
 
+pub fn show_devices() -> Result<(), Error> {
+    let dev_list = Device::list()?;
+    for dev in dev_list {
+        println!("{}", dev.name)
+    }
+    Ok(())
+}
+
 pub fn get_device(dev_name: Option<&str>) -> Result<Device, Error> {
     let dev = match dev_name {
         None => Device::lookup()?,

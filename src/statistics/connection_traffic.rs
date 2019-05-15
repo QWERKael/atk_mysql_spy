@@ -81,14 +81,19 @@ pub fn produce_packet(pkt: &Packet) -> Result<PacketInfo, pcap_error> {
 pub type ConnectTraffic = HashMap<ConnectInfo, u64>;
 
 pub trait ShowTraffic {
-    fn show(&self);
+    fn show(&self, limit: u32);
 }
 
 impl ShowTraffic for ConnectTraffic {
-    fn show(&self) {
+    fn show(&self, limit: u32) {
+        let mut num = 0u32;
         let mut v = Vec::from_iter(self);
         v.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
         for (conn_info, traffic) in v {
+            if num >= limit && limit != 0 {
+                break
+            }
+            num += 1;
             println!("{} : {}", conn_info, format_traffic(*traffic));
         }
     }

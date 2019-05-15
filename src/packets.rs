@@ -13,6 +13,7 @@ use super::statistics::connection_traffic::*;
 use pcap::{ Capture, Active, Packet};
 use pcap::Error as pcap_error;
 use super::error::Error;
+use super::config::OPT;
 
 extern crate pcap;
 
@@ -76,7 +77,7 @@ fn bg_task(rx: mpsc::Receiver<PacketInfo>)
             }
             Item::Tick => {
                 println!("------------------");
-                st.show();
+                st.show(OPT.limit);
 
                 future::ok(st)
             }

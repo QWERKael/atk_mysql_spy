@@ -1,16 +1,19 @@
 use error::Error;
 use atk_mysql_spy::*;
+use config::OPT;
 
 fn run() -> Result<(), Error> {
-    let opt = get_config();
-    let dev = get_device(Some("lo"))?;
+    if OPT.show_devs {
+        return show_devices()
+    }
+    let dev = get_device(Some(&OPT.dev[..]))?;
     println!("{:?}", dev);
-    capture_package(dev, 0, &opt.bpf[..])
+    capture_package(dev, 0, &OPT.bpf[..])
 }
 
 fn main() {
     match run() {
-        Ok(_) => println!("Completion!"),
+        Ok(_) => println!("\n-------------\nCompletion!"),
         Err(e) => println!("{:?}", e),
     };
 }
