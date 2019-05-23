@@ -10,10 +10,10 @@ use pcap::Error as pcap_error;
 
 #[derive(PartialEq, Eq, Hash, Debug)]
 pub struct ConnectInfo {
-    source_ip: [u8; 4],
-    destination_ip: [u8; 4],
-    source_port: u16,
-    destination_port: u16,
+    pub source_ip: [u8; 4],
+    pub destination_ip: [u8; 4],
+    pub source_port: u16,
+    pub destination_port: u16,
 }
 
 impl std::fmt::Display for ConnectInfo {
@@ -36,6 +36,7 @@ pub struct PacketInfo {
     pub sequence_number: u32,
     pub acknowledgment_number: u32,
     pub pkt_len: usize,
+    pub payload: Vec<u8>,
 }
 
 //#[derive(Debug)]
@@ -55,8 +56,10 @@ pub fn produce_packet(pkt: &Packet) -> Result<PacketInfo, pcap_error> {
 //            println!("ip: {:?}", value.ip);
 //            println!("transport: {:?}", value.transport);
 //            println!("payload: {:?}", value.payload);
+            let payload = value.clone().payload;
             if let Version4(ipv4) = value.ip.unwrap() {
                 if let Tcp(tcp) = value.transport.unwrap() {
+//                    println!("{:?}", payload);
                     return Ok(PacketInfo {
                         conn_info: ConnectInfo {
                             source_ip: ipv4.source,
@@ -70,6 +73,7 @@ pub fn produce_packet(pkt: &Packet) -> Result<PacketInfo, pcap_error> {
                         sequence_number: tcp.sequence_number,
                         acknowledgment_number: tcp.acknowledgment_number,
                         pkt_len: pkt.len(),
+                        payload: payload.to_vec(),
                     });
                 }
             }
@@ -99,7 +103,7 @@ impl ShowTraffic for ConnectTraffic {
     }
 }
 
-fn format_traffic(traffic: u64) -> String {
+pub fn format_traffic(traffic: u64) -> String {
     let units = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB"];
     let mut num = traffic as f64;
     for unit in &units {

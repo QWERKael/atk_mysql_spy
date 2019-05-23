@@ -7,6 +7,7 @@ pub mod config;
 
 pub use parse::net_protocol::*;
 pub use statistics::connection_traffic::*;
+pub use statistics::sql_traffic::*;
 pub use nets::*;
 pub use error::*;
 pub use packets::*;
