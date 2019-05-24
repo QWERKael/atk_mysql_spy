@@ -136,6 +136,15 @@ pub struct ClientCommand {
     pub command_content: String,
 }
 
+impl ClientCommand {
+    pub fn fingerprint(self) -> ClientCommand {
+        ClientCommand {
+            command_type: self.command_type,
+            command_content: sql_lexer::sanitize_string(self.command_content),
+        }
+    }
+}
+
 impl std::fmt::Display for ClientCommand {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{:?}: {}",

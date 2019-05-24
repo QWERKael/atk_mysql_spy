@@ -27,6 +27,9 @@ pub struct Opt {
     /// Specify the staticstics type("sql" or "conn")
     #[structopt(long = "stype", default_value = "sql")]
     pub stype: String,
+    /// The interval between print
+    #[structopt(long = "interval", default_value = "3")]
+    pub interval: u64,
 }
 
 pub fn get_config() -> Opt {

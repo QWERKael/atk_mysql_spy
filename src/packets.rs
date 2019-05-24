@@ -16,6 +16,7 @@ use pcap::Error as pcap_error;
 use super::error::Error;
 use super::config::*;
 use self::pcap::tokio::PacketStream;
+use super::config::OPT;
 
 extern crate pcap;
 
@@ -65,7 +66,7 @@ pub fn connections_traffic_statistics(rx: mpsc::Receiver<PacketInfo>)
     }
 
     tokio::spawn({
-        let tick_dur = Duration::from_secs(3);
+        let tick_dur = Duration::from_secs(OPT.interval);
 
         let interval = Interval::new_interval(tick_dur)
             .map(|_| Item::Tick)
@@ -114,7 +115,7 @@ pub fn sql_traffic_statistics(rx: mpsc::Receiver<PacketInfo>)
             command_content: String::from(""),
         };
 
-        let tick_dur = Duration::from_secs(3);
+        let tick_dur = Duration::from_secs(OPT.interval);
 
         let interval = Interval::new_interval(tick_dur)
             .map(|_| Item::Tick)
@@ -135,7 +136,7 @@ pub fn sql_traffic_statistics(rx: mpsc::Receiver<PacketInfo>)
                         if pi.conn_info.destination_ip == string2ip(&OPT.server_ip) && pi.conn_info.destination_port == OPT.server_port {
                             let mp = parse_client_packet(&pi.payload).unwrap().1;
                             if let MySQLPacketContent::ClientCommand(cc) = mp.mysql_packet_content {
-                                last_cc = cc;
+                                last_cc = cc.fingerprint();
                             } else if let MySQLPacketContent::ClientAuth(_) = mp.mysql_packet_content {
                                 last_cc = ClientCommand{
                                     command_type: CommandType::Unknown,
