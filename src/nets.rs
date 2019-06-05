@@ -14,6 +14,8 @@ pub fn capture_package(dev: Device, timeout: i32, bpf: &str) -> Result<(), Error
         process_packet_stream(ps, connections_traffic_statistics)?;
     } else if OPT.stype == String::from("sql") {
         process_packet_stream(ps, sql_traffic_statistics)?;
+    } else if OPT.stype == String::from("raw-utf8") {
+        process_packet_stream(ps, raw_utf8_print)?;
     }
     Ok(())
 }

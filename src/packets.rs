@@ -163,3 +163,17 @@ pub fn sql_traffic_statistics(rx: mpsc::Receiver<PacketInfo>)
             .map(|_| ())
     });
 }
+
+pub fn raw_utf8_print(rx: mpsc::Receiver<PacketInfo>)
+{
+    tokio::spawn({
+        rx.for_each(
+            |pi| {
+                if pi.payload.len() > 0 {
+                    println!("{}", String::from_utf8_lossy(&pi.payload[..]))
+                }
+                Ok(())
+            }
+        )
+    });
+}

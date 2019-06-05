@@ -24,8 +24,8 @@ pub struct Opt {
     /// Specify the server port
     #[structopt(long = "server-port", default_value = "3306")]
     pub server_port: u16,
-    /// Specify the staticstics type("sql" or "conn")
-    #[structopt(long = "stype", default_value = "sql")]
+    /// Specify the staticstics type("sql" or "conn" or "raw-utf8")
+    #[structopt(long = "stype", default_value = "raw-utf8")]
     pub stype: String,
     /// The interval between print
     #[structopt(long = "interval", default_value = "3")]
