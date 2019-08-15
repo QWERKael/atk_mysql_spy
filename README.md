@@ -25,3 +25,7 @@ stype: 模式类型, 目前包括3种模式
   直接以utf-8编码解析监听到的流量, 相当于实时的抓包查看
   e.g.:
   ./atk_mysql_spy --bpf="tcp" --dev=eth0 --stype=raw-utf8
+  
+## 其他
+打印网卡列表
+./atk_mysql_spy --show-devs
