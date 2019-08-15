@@ -2,6 +2,7 @@ use nom::*;
 use std::collections::HashMap;
 use super::connection_traffic::*;
 use std::iter::FromIterator;
+use std::str;
 
 //fn main() {
 //    let raw: [u8; 19] = [15, 0, 0, 0, 3, 115, 104, 111, 119, 32, 100, 97, 116, 97, 98, 97, 115, 101, 115];
@@ -24,7 +25,7 @@ impl ShowTraffic for SQLTraffic {
                 break
             }
             num += 1;
-            println!("{} : {}", cc, format_traffic(*traffic));
+            info!("{} : {}", cc, format_traffic(*traffic));
         }
     }
 }
@@ -140,7 +141,7 @@ impl ClientCommand {
     pub fn fingerprint(self) -> ClientCommand {
         ClientCommand {
             command_type: self.command_type,
-            command_content: sql_lexer::sanitize_string(self.command_content),
+            command_content: sql_lexer::sanitize_string(self.command_content).replace("\n", " ").split_whitespace().collect::<Vec<&str>>().join(" "),
         }
     }
 }

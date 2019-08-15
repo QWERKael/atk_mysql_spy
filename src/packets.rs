@@ -85,13 +85,13 @@ pub fn connections_traffic_statistics(rx: mpsc::Receiver<PacketInfo>)
                     future::ok(st)
                 }
                 Item::Tick => {
-                    println!("------------------");
+                    info!("------------------");
                     st.show(OPT.limit);
 
                     future::ok(st)
                 }
                 _ => {
-                    println!("Get nothing");
+                    info!("Get nothing");
                     unreachable!()
                 }
             }
@@ -149,13 +149,13 @@ pub fn sql_traffic_statistics(rx: mpsc::Receiver<PacketInfo>)
                     future::ok(st)
                 }
                 Item::Tick => {
-                    println!("------------------");
+                    info!("------------------");
                     st.show(OPT.limit);
 
                     future::ok(st)
                 }
                 _ => {
-                    println!("Get nothing");
+                    info!("Get nothing");
                     unreachable!()
                 }
             }
@@ -170,7 +170,7 @@ pub fn raw_utf8_print(rx: mpsc::Receiver<PacketInfo>)
         rx.for_each(
             |pi| {
                 if pi.payload.len() > 0 {
-                    println!("{}", String::from_utf8_lossy(&pi.payload[..]))
+                    info!("{}", String::from_utf8_lossy(&pi.payload[..]))
                 }
                 Ok(())
             }

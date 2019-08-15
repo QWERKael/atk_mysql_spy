@@ -98,7 +98,7 @@ impl ShowTraffic for ConnectTraffic {
                 break
             }
             num += 1;
-            println!("{} : {}", conn_info, format_traffic(*traffic));
+            info!("{} : {}", conn_info, format_traffic(*traffic));
         }
     }
 }

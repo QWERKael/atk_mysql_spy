@@ -24,7 +24,7 @@ pub fn capture_package(dev: Device, timeout: i32, bpf: &str) -> Result<(), Error
 pub fn show_devices() -> Result<(), Error> {
     let dev_list = Device::list()?;
     for dev in dev_list {
-        println!("{}", dev.name)
+        info!("{}", dev.name)
     }
     Ok(())
 }

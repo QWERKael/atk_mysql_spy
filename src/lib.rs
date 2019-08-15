@@ -1,3 +1,7 @@
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
 pub mod nets;
 pub mod parse;
 pub mod error;
